@@ -1,13 +1,13 @@
 var express = require('express');
 var router = express.Router();
-var cat = require('../models/cat.js');
+var burgers = require('../models/burger.js');
 
 router.get('/', function (req, res) {
 	res.redirect('/burgers');
 });
 
 router.get('/burgers', function (req, res) {
-	cat.all(function (data) {
+	burgers.all(function (data) {
 		var hbsObject = { burgers: data };
 		console.log(hbsObject);
 		res.render('index', hbsObject);
@@ -15,7 +15,7 @@ router.get('/burgers', function (req, res) {
 });
 
 router.post('/burgers/create', function (req, res) {
-	cat.create(['name', 'devour'], [req.body.name, req.body.devour], function () {
+	burgers.create(['burger_name', 'devour'], [req.body.burger_name, req.body.devour], function () {
 		res.redirect('/burgers');
 	});
 });
@@ -25,7 +25,7 @@ router.put('/burgers/update/:id', function (req, res) {
 
 	console.log('condition', condition);
 
-	cat.update({ devour: req.body.devour }, condition, function () {
+	burgers.update({"devoured": req.body.devour }, condition, function () {
 		res.redirect('/burgers');
 	});
 });
